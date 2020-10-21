@@ -60,7 +60,8 @@ ForEach ($PC in $PCNames){
     #Concatenates info from above to add new users based on PC Type and PC Number
     $FullPCName = $PCNamesAndUsers.$PCType + $PCNum
     New-ADUser -Name $FullPCName -GivenName $FullPCName -CannotChangePassword $True -PasswordNeverExpires $True -Enabled $True -PasswordNotRequired $True
-    .\psexec.exe \\$PC -acceptlua -d -s Add-LocalGroupMember -Group "Administrators" -Member "$ADInfo.Name\$FullPCName"
+    #Experimental line that will add users locally as admins
+    .\psexec.exe \\$PC -acceptlua -d -s powershell.exe Add-LocalGroupMember -Group "Administrators" -Member "$ADInfo.Name\$FullPCName"
     Write-Host $FullPCName
 
 }
